@@ -1,9 +1,10 @@
 package stream
 
+import com.typesafe.scalalogging.StrictLogging
 import org.apache.spark.sql.SparkSession
 import org.scalatest.{FunSpec, Matchers}
 
-class StreamManagerSpec extends FunSpec with Matchers {
+class StreamManagerSpec extends FunSpec with Matchers with StrictLogging {
 
   private def fixture = new {
     System.setProperty("hadoop.home.dir", "C:\\hadoop")

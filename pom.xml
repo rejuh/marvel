@@ -16,6 +16,13 @@
             <scala.compat.version>2.12</scala.compat.version>
     </properties>
     <dependencies>
+
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>${scala.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-compiler</artifactId>
@@ -27,6 +34,7 @@
             <artifactId>spark-core_${scala.compat.version}</artifactId>
             <version>${spark.version}</version>
         </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-sql -->
         <dependency>
             <groupId>org.apache.spark</groupId>
@@ -40,6 +48,13 @@
             <artifactId>scalatest_${scala.compat.version}</artifactId>
             <version>3.0.8</version>
             <scope>test</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.typesafe.scala-logging/scala-logging -->
+        <dependency>
+            <groupId>com.typesafe.scala-logging</groupId>
+            <artifactId>scala-logging_${scala.compat.version}</artifactId>
+            <version>3.9.2</version>
         </dependency>
 
     </dependencies>

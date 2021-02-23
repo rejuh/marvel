@@ -26,17 +26,18 @@ object StreamManager extends StrictLogging {
     val marvelDcCharactersSchema = Encoders.product[MarvelDcCharacters].schema
     val superHeroPowerMatrixSchema = Encoders.product[SuperHeroesPowerMatrix].schema
 
-    val characterData = sparkSession.read.option("header", "true").schema(charactersSchema).csv(characters).as[Characters].as("characters").withColumnRenamed("name", "Name")
-    val characterToComicData = sparkSession.read.option("header", "true").schema(characterToComicSchema).csv(characterToComics).as[CharactersToComics].as("characterToComic").repartition(5, col("comicID"))
+    val characterData = sparkSession.read.option("header", "true").schema(charactersSchema).csv(characters).as[Characters].as("characters").withColumnRenamed("name", "Name").repartition(5, col("Name"))
+    val characterToComicData = sparkSession.read.option("header", "true").schema(characterToComicSchema).csv(characterToComics).as[CharactersToComics].as("characterToComic")//.repartition(5, col("comicID"))
     val characterStatData = sparkSession.read.option("header", "true").schema(characterStatsSchema).csv(characterStats).as[CharacterStats]
-    val comicsData = sparkSession.read.option("header", "true").schema(comicsSchema).csv(comics).as[Comics].as("comic").repartition(5, col("comicID"))
-    val marvelCharactersInfoData = sparkSession.read.option("header", "true").schema(marvelCharactersInfoSchema).csv(marvelCharactersInfo).as[MarvelCharactersInfo]
-    val marvelDcCharactersData = sparkSession.read.option("header", "true").schema(marvelDcCharactersSchema).csv(marvelDcCharacters).as[MarvelDcCharacters]
+    val comicsData = sparkSession.read.option("header", "true").schema(comicsSchema).csv(comics).as[Comics].as("comic")//.repartition(5, col("comicID"))
+    val marvelCharactersInfoData = sparkSession.read.option("header", "true").schema(marvelCharactersInfoSchema).csv(marvelCharactersInfo).as[MarvelCharactersInfo].repartition(5, col("Name"))
+    val marvelDcCharactersData = sparkSession.read.option("header", "true").schema(marvelDcCharactersSchema).csv(marvelDcCharacters).as[MarvelDcCharacters].repartition(5, col("Name"))
     val superHeroPowerMatrixData = sparkSession.read.option("header", "true").schema(superHeroPowerMatrixSchema).csv(superHeroPowerMatrix).as[SuperHeroesPowerMatrix]
       .withColumnRenamed("Durability", "Durable")
       .withColumnRenamed("Intelligence", "Intelligent")
+      .repartition(5, col("Name"))
 
-    val joinMarvelData = mergeMarvelDcData(marvelCharactersInfoData, marvelDcCharactersData)
+    val joinMarvelData = mergeMarvelDcData(marvelCharactersInfoData, marvelDcCharactersData).repartition(5, col("Name"))
 
     val out = characterToComicData.join(broadcast(characterData), Seq("characterID"), "outer")
       .join(comicsData, Seq("comicID"), "outer")

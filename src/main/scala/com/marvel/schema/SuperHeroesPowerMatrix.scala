@@ -1,16 +1,4 @@
-package schema
-
-case class Characters(characterID: Int, name: String)
-
-case class CharactersToComics(comicID: Int, characterID: Int)
-
-case class CharacterStats(Name: String, Alignment: String, Intelligence: Int, Strength: Int, Speed: Int, Durability: Int, Power: Int, Combat: Int, Total: Int)
-
-case class Comics(comicID: Int, title: String, issueNumber: Int, description: String)
-
-case class MarvelCharactersInfo(ID: Int, Name: String, Alignment: String, Gender: String, EyeColor: String, Race: String, HairColor: String, Publisher: String, SkinColor: String, Height: Int, Weight: Int)
-
-case class MarvelDcCharacters(ID: Int, Name: String, Identity: String, Alignment: String, EyeColor: String, HairColor: String, Gender: String, Status: String, Appearances: String, FirstAppearance: String, Year: Int, Universe: String)
+package com.marvel.schema
 
 case class SuperHeroesPowerMatrix(Name: String, Agility: Boolean, Accelerated: Boolean, Healing: Boolean, `Lantern Power Ring`: Boolean, `Dimensional Awareness`: Boolean, `Cold Resistance1`: Boolean, Durability: Boolean,
                                   Stealth: Boolean, `Energy Absorption`: Boolean, Flight: Boolean, `Danger Sense`: Boolean, `Underwater breathing`: Boolean, Marksmanship: Boolean, `Weapons Master`: Boolean,

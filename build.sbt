@@ -1,17 +1,27 @@
-name := "marvel"
-version := "0.1"
+lazy val commonSettings = Seq(
+  organization := "com.marvel",
+  version := "0.1.0-SNAPSHOT"
+)
 
-scalaVersion := "2.12.12"
+scalaVersion := "2.11.8"
 
-val sparkVersion = "3.0.0"
+val sparkVersion = "2.3.2"
 
-// https://mvnrepository.com/artifact/org.apache.spark/spark-core
-libraryDependencies += "org.apache.spark" %% "spark-core" % sparkVersion
+resolvers += Resolver.sbtPluginRepo("releases")
+
+assemblyJarName in assembly := "marvel-scala-sbt-assembly-fatjar-1.0.jar"
+
+lazy val app = (project in file(".")).
+settings(commonSettings: _*).
+settings(
+      name := "marvel"
+).enablePlugins(AssemblyPlugin)
 
 libraryDependencies += "org.apache.spark" %% "spark-sql" % sparkVersion % "provided"
 
-// https://mvnrepository.com/artifact/org.scalatest/scalatest
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.8" % Test
 
-// https://mvnrepository.com/artifact/com.typesafe.scala-logging/scala-logging
 libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.9.2"
+
+libraryDependencies += "org.apache.spark" %% "spark-hive" % sparkVersion % "provided"
+

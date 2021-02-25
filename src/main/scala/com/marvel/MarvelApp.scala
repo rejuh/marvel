@@ -18,5 +18,9 @@ object MarvelApp extends App with StrictLogging {
   StreamManager.normaliseData(inputLocation, outputLocation)
   logger.info("Normalised data and created Parquet file")
 
+  logger.info("load parquet to hive")
+  StreamManager.loadToHive(outputLocation)
+  logger.info("loaded to hive")
+
   spark.close()
 }

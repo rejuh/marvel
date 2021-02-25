@@ -61,10 +61,18 @@ object StreamManager extends StrictLogging {
     logger.info(s"Parquet created at ${outputLocation}")
   }
 
-  def doHiveStuff(implicit sparkSession: SparkSession): Unit = {
+  def loadToHive(parquetLocation: String)(implicit sparkSession: SparkSession): Unit = {
     val sqlContext = sparkSession.sqlContext
 
-    sqlContext.sql("CREATE TABLE IF NOT EXISTS employee(id INT, name STRING, age INT) ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'")
+    logger.info("reading parquet file")
+    val parquetData = sparkSession.read.parquet(s"${parquetLocation}")
+
+    logger.info("creating temporary view")
+    parquetData.createOrReplaceTempView("temporaryMarvelTable")
+    logger.info("creating table in hive")
+    sqlContext.sql("create table marvelTable as select * from temporaryMarvelTable")
+    logger.info("loaded data into table: marvelTable")
+
   }
 
   private def mergeMarvelDcData(marvelCharactersInfoData: Dataset[MarvelCharactersInfo], marvelDcCharactersData: Dataset[MarvelDcCharacters]) = {
@@ -78,7 +86,7 @@ object StreamManager extends StrictLogging {
       .appName("Marvel")
       .config("fs.defaultFS", "hdfs://namenode:8020")
       .config("spark.sql.warehouse.dir", warehouseLocation)
-      .config("hive.metastore.uris", "thrift://localhost:9083")
+      .config("hive.metastore.uris", "thrift://hive-metastore:9083")
       .enableHiveSupport()
       .getOrCreate()
   }

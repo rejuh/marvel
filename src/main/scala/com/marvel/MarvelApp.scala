@@ -1,7 +1,7 @@
 package com.marvel
 
+import com.marvel.stream.StreamManager
 import com.typesafe.scalalogging.StrictLogging
-import marvel.stream.StreamManager
 
 object MarvelApp extends App with StrictLogging {
 

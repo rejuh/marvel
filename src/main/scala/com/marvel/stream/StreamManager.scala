@@ -1,4 +1,4 @@
-package marvel.stream
+package com.marvel.stream
 
 import com.marvel.schema.{CharacterStats, Characters, CharactersToComics, Comics, MarvelCharactersInfo, MarvelDcCharacters, SuperHeroesPowerMatrix}
 import com.typesafe.scalalogging.StrictLogging
@@ -44,7 +44,7 @@ object StreamManager extends StrictLogging {
       .repartition(2, col("Name"))
     logger.info("Dataframes created, performing joins")
 
-    val joinMarvelData = mergeMarvelDcData(marvelCharactersInfoData, marvelDcCharactersData).repartition(5, col("Name"))
+    val joinMarvelData = mergeMarvelDcData(marvelCharactersInfoData, marvelDcCharactersData).repartition(2, col("Name"))
 
     val out = characterToComicData.join(broadcast(characterData), Seq("characterID"), "outer")
       .join(comicsData, Seq("comicID"), "outer")

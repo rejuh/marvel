@@ -1,4 +1,4 @@
-package marvel.stream
+package com.marvel.stream
 
 import com.typesafe.scalalogging.StrictLogging
 import org.apache.spark.sql.SparkSession

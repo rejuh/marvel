@@ -3,9 +3,9 @@ lazy val commonSettings = Seq(
   version := "0.1.0-SNAPSHOT"
 )
 
-scalaVersion := "2.11.8"
+scalaVersion := "2.12.2"
 
-val sparkVersion = "2.3.2"
+val sparkVersion = "3.0.1"
 
 resolvers += Resolver.sbtPluginRepo("releases")
 

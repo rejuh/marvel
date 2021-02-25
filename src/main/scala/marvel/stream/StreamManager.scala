@@ -76,7 +76,7 @@ object StreamManager extends StrictLogging {
     SparkSession
       .builder
       .appName("Marvel")
-      .config("fs.defaultFS", "hdfs://172.18.0.6:8020")
+      .config("fs.defaultFS", "hdfs://namenode:8020")
       .config("spark.sql.warehouse.dir", warehouseLocation)
       .config("hive.metastore.uris", "thrift://localhost:9083")
       .enableHiveSupport()

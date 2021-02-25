@@ -4,7 +4,6 @@ services:
     image: bde2020/spark-master:3.0.1-hadoop3.2
     container_name: spark-master
     ports:
-      - "8081:8081"
       - "7077:7077"
     environment:
       - INIT_DAEMON_STEP=setup_spark
@@ -26,3 +25,7 @@ services:
       - "8083:8083"
     environment:
       - "SPARK_MASTER=spark://spark-master:7077"
+networks:
+  default:
+    external:
+      name: docker-hive_default
